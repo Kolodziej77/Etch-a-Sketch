@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+#container {
+    width: 1000px;
+    height: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    box-sizing: border-box;
+}
+
+.divGrid {
+    border: 1px solid black;
+    box-sizing: border-box;
+}
