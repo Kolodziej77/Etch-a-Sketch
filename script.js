@@ -1,5 +1,31 @@
 const container = document.querySelector('#container');
+const sizeBtn = document.querySelector('#sizeBtn');
+const rainbowBtn = document.querySelector('#rainbowBtn');
+const colorPicker = document.querySelector('#colorPicker');
+const clearBtn = document.querySelector('#clearBtn');
+const rubberBtn = document.querySelector('#rubberBtn');
 let size = 0;
+let currentMode = 'color';
+let currentColor = 'yellow';
+
+function hoverColor(div){
+    div.addEventListener('mouseenter', () => {
+        if(currentMode === 'color'){
+            div.style.background = currentColor;
+        }else if(currentMode === 'rainbow'){
+            div.style.background = getRandomColor();
+        }else if(currentMode === 'white'){
+            div.style.background = 'white';
+        }
+    });
+}
+
+function getRandomColor(){
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 function makeGrid(size){
 
@@ -17,13 +43,14 @@ function makeGrid(size){
         div.classList.add('divGrid');
         div.style.width = `${divSize}px`;
         div.style.height = `${divSize}px`;
+        hoverColor(div);
         container.appendChild(div);
     }
 }
 
 function getSize(){
     while(true){
-        let input = parseInt(prompt('Enter grid size (1-100'));
+        let input = parseInt(prompt('Enter grid size (1-100)'));
         if(!isNaN(input) && input > 0 && input <= 100){
             size = input;
             makeGrid(size);
@@ -33,4 +60,23 @@ function getSize(){
     }
 }
 
-getSize();
+sizeBtn.addEventListener('click', getSize);
+rainbowBtn.addEventListener('click', () => {
+    currentMode = 'rainbow';
+})
+
+rubberBtn.addEventListener('click', () => {
+    currentMode = 'white';
+})
+
+colorPicker.addEventListener('input', (e) => {
+    currentMode = 'color';
+    currentColor = e.target.value;
+})
+
+clearBtn.addEventListener('click', () => {
+    const divs = document.querySelectorAll('.divGrid');
+    divs.forEach(div => div.style.background = 'white');
+});
+
+makeGrid(30);
