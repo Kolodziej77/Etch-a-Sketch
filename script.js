@@ -9,6 +9,7 @@ let currentMode = 'color';
 let currentColor = 'yellow';
 
 function hoverColor(div){
+    div.dataset.brightness = '1';
     div.addEventListener('mouseenter', () => {
         if(currentMode === 'color'){
             div.style.background = currentColor;
@@ -16,7 +17,14 @@ function hoverColor(div){
             div.style.background = getRandomColor();
         }else if(currentMode === 'white'){
             div.style.background = 'white';
+            div.dataset.brightness = '1';
+            div.style.filter = 'brightness(1)';
+            return;
         }
+    let brightness = parseFloat(div.dataset.brightness);
+    brightness = Math.max(0, brightness - 0.1);
+    div.style.filter = `brightness(${brightness})`;
+    div.dataset.brightness = brightness.toString();
     });
 }
 
@@ -43,6 +51,7 @@ function makeGrid(size){
         div.classList.add('divGrid');
         div.style.width = `${divSize}px`;
         div.style.height = `${divSize}px`;
+        div.dataset.brightness = '1';
         hoverColor(div);
         container.appendChild(div);
     }
@@ -76,7 +85,11 @@ colorPicker.addEventListener('input', (e) => {
 
 clearBtn.addEventListener('click', () => {
     const divs = document.querySelectorAll('.divGrid');
-    divs.forEach(div => div.style.background = 'white');
+    divs.forEach(div => {
+        div.style.background = 'white';
+        div.dataset.brightness = '1';
+        div.style.filter = 'brightness(1)';
+    });
 });
 
 makeGrid(30);
