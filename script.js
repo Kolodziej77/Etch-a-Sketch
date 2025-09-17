@@ -10,6 +10,7 @@ let currentColor = 'yellow';
 
 function hoverColor(div){
     div.dataset.brightness = '1';
+    div.dataset.hoverCount = '0';
     div.addEventListener('mouseenter', () => {
         if(currentMode === 'color'){
             div.style.background = currentColor;
@@ -21,10 +22,14 @@ function hoverColor(div){
             div.style.filter = 'brightness(1)';
             return;
         }
-    let brightness = parseFloat(div.dataset.brightness);
-    brightness = Math.max(0, brightness - 0.1);
-    div.style.filter = `brightness(${brightness})`;
-    div.dataset.brightness = brightness.toString();
+    let hoverCount = parseInt(div.dataset.hoverCount);
+    if(hoverCount > 0){
+        let brightness = parseFloat(div.dataset.brightness);
+        brightness = Math.max(0, brightness - 0.1);
+        div.style.filter = `brightness(${brightness})`;
+        div.dataset.brightness = brightness.toString();
+    }
+    div.dataset.hoverCount++;
     });
 }
 
